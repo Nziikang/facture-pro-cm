@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facture Pro 237</title>
+<style>
+body{font-family:system-ui;background:#0f172a;color:white;padding:15px}
+.card{background:#1e293b;padding:22px;border-radius:18px;max-width:420px;margin:auto}
+input{width:100%;padding:14px;margin:8px 0;border-radius:10px;border:none;box-sizing:border-box}
+button{width:100%;padding:15px;background:#22c55e;color:white;border:none;border-radius:12px;font-weight:bold;font-size:16px;margin-top:10px}
+.pro{background:#f59e0b;color:black}
+#resultat{margin-top:15px}
+a{color:#22c55e;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Facture Pro 237</h2>
+<p>127 commercants a Yde l'utilisent</p>
+<input id="client" placeholder="Nom client">
+<input id="montant" type="number" placeholder="Montant XAF">
+<input id="tel" placeholder="WhatsApp client 2376...">
+<button onclick="creer()">Creer & Envoyer WhatsApp</button>
+<button class="pro" onclick="alert('Bientot paiement MoMo 3500F')">Passer PRO 3500F</button>
+<div id="resultat"></div>
+</div>
+<script>
+async function creer(){
+ const c=document.getElementById('client').value;
+ const m=document.getElementById('montant').value;
+ const t=document.getElementById('tel').value;
+ if(!c||!m){alert('Nom + Montant obligatoires');return}
+ const r=await fetch('/api/facture',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client:c,montant:m,telephone:t})});
+ const d=await r.json();
+ if(d.ok){
+   document.getElementById('resultat').innerHTML=`<a href="${d.lien}" target="_blank">OUVRIR WHATSAPP</a>`;
+   window.open(d.lien,'_blank');
+ }else{alert(d.error)}
+}
+</script>
+</body>
+</html>
