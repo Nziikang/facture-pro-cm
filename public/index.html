@@ -3,40 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Facture Pro 237</title>
+<title>Facture Pro 237 - Loic Nzikang Touotsap</title>
 <style>
-body{font-family:system-ui;background:#0f172a;color:white;padding:15px}
-.card{background:#1e293b;padding:22px;border-radius:18px;max-width:420px;margin:auto}
-input{width:100%;padding:14px;margin:8px 0;border-radius:10px;border:none;box-sizing:border-box}
-button{width:100%;padding:15px;background:#22c55e;color:white;border:none;border-radius:12px;font-weight:bold;font-size:16px;margin-top:10px}
+body{font-family:system-ui;background:#0f172a;color:white;padding:15px;margin:0}
+.card{background:#1e293b;padding:22px;border-radius:18px;max-width:420px;margin:20px auto;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+h2{margin:0 0 5px} p{opacity:.8;font-size:14px}
+input{width:100%;padding:14px;margin:8px 0;border-radius:10px;border:none;box-sizing:border-box;font-size:15px}
+button{width:100%;padding:15px;background:#22c55e;color:white;border:none;border-radius:12px;font-weight:bold;font-size:16px;margin-top:12px;cursor:pointer}
 .pro{background:#f59e0b;color:black}
-#resultat{margin-top:15px}
-a{color:#22c55e;font-weight:bold}
+#resultat{margin-top:15px;word-break:break-all;background:#0f172a;padding:12px;border-radius:10px}
+a{color:#22c55e;font-weight:bold;text-decoration:none}
+.badge{background:#22c55e22;border:1px solid #22c55e;padding:6px 10px;border-radius:20px;font-size:12px;display:inline-block;margin-bottom:10px}
+.footer{font-size:12px;opacity:.8;text-align:center;margin-top:20px;line-height:1.7}
 </style>
 </head>
 <body>
 <div class="card">
-<h2>Facture Pro 237</h2>
-<p>127 commercants a Yde l'utilisent</p>
-<input id="client" placeholder="Nom client">
-<input id="montant" type="number" placeholder="Montant XAF">
-<input id="tel" placeholder="WhatsApp client 2376...">
-<button onclick="creer()">Creer & Envoyer WhatsApp</button>
-<button class="pro" onclick="alert('Bientot paiement MoMo 3500F')">Passer PRO 3500F</button>
+<div class="badge">✅ 127 commerçants à Yaoundé</div>
+<h2>🧾 Facture Pro 237</h2>
+<p>Par Loïc Nzikang Touotsap - Yaoundé 🇨🇲</p>
+<input id="client" placeholder="Nom client ex: Mama Léa">
+<input id="montant" type="number" placeholder="Montant XAF ex: 15000">
+<input id="tel" placeholder="WhatsApp client ex: 237691234567">
+<button onclick="creer()">Créer & Envoyer WhatsApp</button>
 <div id="resultat"></div>
+<button class="pro" onclick="payer()">🔓 Passer PRO 3500F/mois - Payer sur WhatsApp</button>
+<div class="footer">
+<hr style="opacity:.2">
+<b>Loïc Nzikang Touotsap</b><br>
+Support & Paiement MoMo / OM:<br>
+<a href="https://wa.me/237679388740">+237 679 388 740</a><br>
+<a href="https://wa.me/237686951556">+237 686 951 556</a>
+</div>
 </div>
 <script>
 async function creer(){
- const c=document.getElementById('client').value;
- const m=document.getElementById('montant').value;
- const t=document.getElementById('tel').value;
- if(!c||!m){alert('Nom + Montant obligatoires');return}
- const r=await fetch('/api/facture',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client:c,montant:m,telephone:t})});
- const d=await r.json();
- if(d.ok){
-   document.getElementById('resultat').innerHTML=`<a href="${d.lien}" target="_blank">OUVRIR WHATSAPP</a>`;
-   window.open(d.lien,'_blank');
- }else{alert(d.error)}
+  const c=document.getElementById('client').value;
+  const m=document.getElementById('montant').value;
+  const t=document.getElementById('tel').value;
+  if(!c||!m){alert('Nom + Montant obligatoires');return}
+  const r=await fetch('/api/facture',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client:c,montant:m,telephone:t})});
+  const d=await r.json();
+  if(d.ok){
+    document.getElementById('resultat').innerHTML=`<a href="${d.lien}" target="_blank">✅ OUVRIR WHATSAPP CLIENT</a><br><br>Lien: ${d.lien}`;
+    window.open(d.lien,'_blank');
+  }else{
+    document.getElementById('resultat').innerHTML=`<b style="color:#f59e0b">${d.error}</b><br><br>👉 Active PRO ici: <a href="https://wa.me/237679388740?text=Salut Loic, je veux PRO 3500F" target="_blank">WhatsApp Loïc</a>`;
+  }
+}
+function payer(){
+  const msg=encodeURIComponent("Salut Loïc Nzikang, c'est pour le PRO Facture Pro 237 à 3500F. Je veux activer. Mon nom:");
+  window.open(`https://wa.me/237679388740?text=${msg}`,'_blank');
 }
 </script>
 </body>
